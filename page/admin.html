@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>admin</title>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"
+      integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Josefin+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;1,100;1,200;1,300;1,400;1,500&family=Mochiy+Pop+One&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&family=Roboto:wght@100&display=swap"
+      rel="stylesheet"
+    />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/admin.css">
+    <script src="../js/checklogin.js"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="header__logo">
+            TGDD
+        </div>
+        <div class="header__info">
+            <span id="nameAccount"></span>
+            <i onclick="logOut()" class="fas fa-sign-out-alt"></i>
+        </div>
+    </header>
+    <div class="body">
+       
+        <div class="body__left">
+            <p class="body__left__item active" id="tab-phone" onclick="changeContent('phone','tab-phone')">
+            <i class="fas fa-mobile-alt"></i>
+              Quản lí điện thoại
+            </p>
+            <p class="body__left__item" id="tab-user" onclick="changeContent('user','tab-user')">
+                <i class="far fa-user"></i>
+                Quản lí người dùng
+              </p>
+              <p class="body__left__item" id="tab-ship" onclick="changeContent('ship','tab-ship')">
+                <i class="fas fa-people-carry"></i>
+                Quản lí giao hàng
+              </p>
+              <p class="body__left__item" id="tab-employee" onclick="changeContent('employee','tab-employee')">
+                <i class="fas fa-quidditch"></i>
+                Quản lí nhân viên
+              </p>
+        </div>
+        <div class="body__right">
+            <div class="body__right__add">
+                <div class="body__right__add__overlay" id="overlay" onclick="outAddInfo()"></div>
+                <div class="body__right__add__info" id="addInfo">  
+                    <div class="body__right__add__info__content"> 
+                        <i class="fa fa-times" onclick="outAddInfo()"></i>
+                        <p>Tên: </p>
+                        <input id="ten" type="text" placeholder="Tên sản phẩm">
+                        <p>Giá: </p>
+                        <input id="gia" type="text" placeholder="Giá sản phẩm">
+                        <p>Mô tả: </p>
+                        <input id="moTa" type="text" placeholder="Mô tả sản phẩm">
+                        <div class="body__right__add__info__content__source1">
+                            <div class="">
+                              <p>Số lượng còn lại: </p>
+                              <input id="soLuong" type="text" placeholder="Số lượng còn lại">
+                            </div>
+                            <div class="">
+                              <p>Năm sản xuất: </p>
+                              <input id="year" type="text" placeholder="Năm sản xuất">
+                            </div>
+                            <div class="">
+                              <p>Hãng: </p>
+                              <input id="hang" type="text" placeholder="Hãng">
+                            </div>
+                        </div>
+                        <div class="body__right__add__info__content__source1">
+                            <div class="">
+                              <p>Tình trạng: </p>
+                              <input id="tinhTrang" type="text" placeholder="Tình trạng">
+                            </div>
+                            <div class="">
+                              <p>Chip: </p>
+                              <input id="chip" type="text" placeholder="Chip">
+                            </div>
+                            <div class="">
+                              <p>Ram: </p>
+                              <input id="ram" type="text" placeholder="Ram">
+                            </div>
+                        </div>
+                        <p>Link hình ảnh: </p>
+                        <input id="image" type="text" placeholder="Link hình ảnh">
+                        <button class="body__right__add__info__content__button3" id="button3" onclick="addPhone()">Thêm sản phẩm</button>
+                        <div class="body__right__add__info__content__button4" id="button4">
+                          <button>Cập nhật</button>
+                          <button>Remove</button>
+                        </div>
+                    </div>
+                </div>
+               </div>
+            <div class="body__right__content active" id="phone">
+                <h1>Thế Giới Di Động</h1>
+                <button class="body__right__content__button1" onclick="addInfo()">Thêm sản phẩm mới</button>
+               <div class="body__right__content__search ">
+                   <button class="body__right__content__search__button2">Tìm kiếm</button>
+                   <input type="text" placeholder="Nhập tên hoặc mã sản phẩm">
+               </div>
+            
+               <table class="table mt-4 table-bordered text-center">
+                   <thead>
+                    <tr class="table-dark">
+                        <th scope="col">Image</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Price</th>
+                        <th scope="col" class="quantity">Quantity</th>
+                        <th scope="col" class="quantity" >Description</th>
+                        <th scope="col" class="year">Year</th>
+                        <th scope="col">Brand</th>
+                        <th scope="col">Condtion</th>
+                        <th scope="col">Chip</th>
+                        <th scope="col">Ram</th>
+                    </tr>
+                   </thead>
+                   <tbody id="tbody">
+                    
+                   </tbody>
+               </table>
+            </div>
+            <div class="body__right__content" id="user">
+                <h1>quản lí người dùng</h1>
+            </div>
+            <div class="body__right__content" id="ship">
+                <h1>quản lí giao hàng</h1>
+            </div>
+            <div class="body__right__content" id="employee">
+                <h1>quản lí nhân viên</h1>
+            </div>
+        </div>
+    </div>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+    <script src="../js/admin.js"></script>
+</body>
+</html>
