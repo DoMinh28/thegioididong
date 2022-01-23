@@ -34,7 +34,8 @@ document.getElementById(id).classList.add("active")
  }
  let listPhone = []
  class Phone {
-     constructor(ten,gia,moTa,soLuong,year,hang,tinhTrang,chip,ram,image){
+     constructor(id,ten,gia,moTa,soLuong,year,hang,tinhTrang,chip,ram,image){
+       this.id = id
        this.ten = ten
        this.gia = gia
        this.moTa = moTa
@@ -87,31 +88,84 @@ const clearForm = () => {
    let chip =  document.getElementById("chip").value
    let ram = document.getElementById("ram").value
    let image = document.getElementById("image").value
-   let phone = new Phone(ten,gia,moTa,soLuong,year,hang,tinhTrang,chip,ram,image)
+   
+   let phone = new Phone(-1,ten,gia,moTa,soLuong,year,hang,tinhTrang,chip,ram,image)
    listPhone.push(phone) 
-   html = fillItem(id,listPhone[id].ten,listPhone[id].gia,listPhone[id].moTa,listPhone[id].soLuong,listPhone[id].year,listPhone[id].hang,listPhone[id].tinhTrang,listPhone[id].chip,listPhone[id].ram,listPhone[id].image)
-   document.getElementById("tbody").innerHTML += html;
-   id = id + 1
+   axios({
+     url: "https://61e56d0c595afe00176e55c5.mockapi.io/phone",
+     method: "POST",
+     data: phone
+   }).then(
+     (response) => {
+      Swal.fire({
+        icon: 'success',
+        title: 'Chúc Mừng',
+        text: 'Add phone thành công',
+      })
+      retrive()
+     }
+   ).catch(
+    (error) => {
+      alert("error")
+    }
+   )
    clearForm()
    outAddInfo()
-   Swal.fire({
-    icon: 'success',
-    title: 'Chúc Mừng',
-    text: 'Add phone thành công',
-  })
+ 
  }
  const showInfo = (id) => {
   addInfo()
   document.getElementById("button3").style.display = "none"
   document.getElementById("button4").style.display = "block"
-  document.getElementById("ten").value = "" + listPhone[id].ten
-  document.getElementById("gia").value = "" + listPhone[id].gia
-  document.getElementById("moTa").value = "" + listPhone[id].moTa
-  document.getElementById("soLuong").value = "" + listPhone[id].soLuong
-  document.getElementById("year").value = "" + listPhone[id].year
-  document.getElementById("hang").value = "" + listPhone[id].hang
-  document.getElementById("tinhTrang").value = "" + listPhone[id].tinhTrang
-  document.getElementById("chip").value = "" + listPhone[id].chip
-  document.getElementById("ram").value = "" + listPhone[id].ram
-  document.getElementById("image").value = "" + listPhone[id].image
+  document.getElementById("ten").value = "" + listPhone[id-1].ten
+  document.getElementById("gia").value = "" + listPhone[id-1].gia
+  document.getElementById("moTa").value = "" + listPhone[id-1].moTa
+  document.getElementById("soLuong").value = "" + listPhone[id-1].soLuong
+  document.getElementById("year").value = "" + listPhone[id-1].year
+  document.getElementById("hang").value = "" + listPhone[id-1].hang
+  document.getElementById("tinhTrang").value = "" + listPhone[id-1].tinhTrang
+  document.getElementById("chip").value = "" + listPhone[id-1].chip
+  document.getElementById("ram").value = "" + listPhone[id-1].ram
+  document.getElementById("image").value = "" + listPhone[id-1].image
  }
+ const retrive = () => {
+  axios({
+      url: "https://61e56d0c595afe00176e55c5.mockapi.io/phone",
+      method: "GET",
+  }).then(
+      (response) => {
+          renderData(response.data)
+      }
+  ).catch(
+      (error) => {
+          console.log(error);
+      }
+  )
+}
+retrive()
+const renderData = (data) => {
+  document.getElementById("tbody").innerHTML = ""
+  data.forEach((item) => {
+     listPhone.push(item) 
+     let{id,ten,gia,moTa,soLuong,year,hang,tinhTrang,chip,ram,image} = item
+     html = fillItem(id,ten,gia,moTa,soLuong,year,hang,tinhTrang,chip,ram,image)
+     document.getElementById("tbody").innerHTML += html;
+  })
+}
+document.getElementById("search").addEventListener("input", (e) => {
+ let keyWord = e.target.value
+ axios({
+  url: "https://61e56d0c595afe00176e55c5.mockapi.io/phone",
+  method: "GET",
+}).then(
+  (response) => {
+      let fullData = response.data
+      let dataFilter = fullData.filter(item => item.ten.toLowerCase().includes(keyWord.toLowerCase()))
+      renderData(dataFilter)
+  }
+).catch(
+  (error) => {
+      console.log(error);
+  }
+)
+})
